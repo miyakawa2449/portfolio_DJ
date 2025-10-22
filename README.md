@@ -11,7 +11,7 @@
 
 ## 技術スタック
 
-- **Backend**: Python 3.13, Django 5.2.7
+- **Backend**: Python 3.13.9, Django 5.2.7
 - **Database**: MySQL 8.0
 - **Frontend**: Tailwind CSS, Django Template Engine
 - **Deployment**: Docker, AWS Lightsail
@@ -61,23 +61,71 @@ docker-compose exec web python manage.py createsuperuser
 ```
 portfolio_DJ/
 ├── config/              # Djangoプロジェクト設定
+│   ├── settings.py     # 環境変数対応済み
+│   ├── urls.py
+│   └── wsgi.py
 ├── portfolio/           # ポートフォリオアプリ
+│   ├── models.py       # （Phase 2で実装予定）
+│   ├── views.py
+│   ├── admin.py
+│   └── migrations/
 ├── blog/               # ブログアプリ
+│   ├── models.py       # （Phase 2で実装予定）
+│   ├── views.py
+│   ├── admin.py
+│   └── migrations/
 ├── docs/               # プロジェクトドキュメント
+│   └── faq.md          # よくある質問と回答
 ├── reports/            # 開発レポート
+│   └── 2025-10-22/    # 日次レポート
+├── .claude/            # Claude Code設定
+│   └── commands/       # カスタムコマンド
 ├── docker-compose.yml  # Docker設定
-├── Dockerfile         # Dockerイメージ設定
-└── requirements.txt   # Python依存パッケージ
+├── Dockerfile         # Python 3.13.9をソースからビルド
+├── requirements.txt   # Python依存パッケージ
+├── manage.py          # Django管理コマンド
+├── .env.example       # 環境変数テンプレート
+└── .gitignore         # Git除外設定
 ```
 
 ## 開発フェーズ
 
-- [x] Phase 1: Docker環境構築
-- [ ] Phase 2: モデル構築
+- [x] Phase 1: Docker環境構築 ✅ **完了** (2025-10-22)
+  - Python 3.13.9ソースビルド成功
+  - Django 5.2.7 + MySQL 8.0環境構築
+  - portfolio、blogアプリ作成済み
+- [ ] Phase 2: モデル構築 **← 現在ここ**
+  - ポートフォリオセクション管理
+  - ブログ記事・カテゴリー管理
 - [ ] Phase 3: フロントエンド実装
+  - Tailwind CSS導入
+  - レスポンシブデザイン
 - [ ] Phase 4: 機能拡張
+  - 画像アップロード
+  - リッチテキストエディタ
 - [ ] Phase 5: 本番環境準備
+  - セキュリティ設定
+  - 静的ファイル配信
 - [ ] Phase 6: AWS Lightsailデプロイ
+  - HTTPS設定
+  - ドメイン接続
+
+## トラブルシューティング
+
+### hash sum mismatchエラーが発生した場合
+Dockerビルド時にエラーが発生した場合は、`docs/faq.md`の「トラブルシューティング」セクションを参照してください。
+
+### スーパーユーザー作成時のエラー
+`Superuser creation skipped due to not running in a TTY`エラーが出た場合は、別のターミナルから以下を実行:
+```bash
+docker exec -it portfolio_dj-web-1 python manage.py createsuperuser
+```
+
+## 開発ドキュメント
+
+- **CLAUDE.md**: プロジェクト全体の仕様と開発方針
+- **docs/faq.md**: よくある質問とトラブルシューティング
+- **reports/**: 日次開発レポート（進捗・学習内容）
 
 ## ライセンス
 

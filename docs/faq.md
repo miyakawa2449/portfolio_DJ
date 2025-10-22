@@ -3,6 +3,7 @@
 ## 目次
 - [Docker関連](#docker関連)
 - [セキュリティ](#セキュリティ)
+- [トラブルシューティング](#トラブルシューティング)
 
 ## Docker関連
 
@@ -80,3 +81,76 @@ python3 -c "import secrets; print(f'SECRET_KEY: django-insecure-{secrets.token_u
 
 **日付:** 2025-10-22  
 **関連ファイル:** `.env`
+
+## トラブルシューティング
+
+### Q: hash sum mismatchエラーの解決方法は？
+**A:** Docker環境でapt-getコマンド実行時に発生する「hash sum mismatch」エラーの解決策です。
+
+**最終的に採用した解決策：Python 3.13.9をソースからビルド**
+
+```dockerfile
+FROM ubuntu:24.04
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# APT設定（hash sum mismatchエラー対策）
+RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
+    echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
+    echo "Acquire::BrokenProxy true;" >> /etc/apt/apt.conf.d/99custom
+
+# Python 3.13.9のソースからビルド
+RUN apt-get update && apt-get install -y \
+        build-essential \
+        default-libmysqlclient-dev \
+        pkg-config \
+        wget \
+        zlib1g-dev \
+        libncurses5-dev \
+        libgdbm-dev \
+        libnss3-dev \
+        libssl-dev \
+        libreadline-dev \
+        libffi-dev \
+        libsqlite3-dev \
+        libbz2-dev \
+        liblzma-dev \
+        tk-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Python 3.13.9をソースからビルド・インストール
+RUN cd /tmp && \
+    wget https://www.python.org/ftp/python/3.13.9/Python-3.13.9.tgz && \
+    tar xzf Python-3.13.9.tgz && \
+    cd Python-3.13.9 && \
+    ./configure --enable-optimizations --with-ensurepip=install && \
+    make -j$(nproc) && \
+    make altinstall && \
+    cd / && \
+    rm -rf /tmp/Python-3.13.9*
+
+# Python 3.13.9をデフォルトに設定
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.13 1 && \
+    update-alternatives --install /usr/bin/python python /usr/local/bin/python3.13 1 && \
+    update-alternatives --install /usr/bin/pip3 pip3 /usr/local/bin/pip3.13 1
+```
+
+**エラーの原因：**
+- APTミラーサーバーの問題
+- ネットワーク接続の不安定さ
+- Docker Hub上のイメージのパッケージリスト不整合
+
+**解決プロセス：**
+1. 複数のベースイメージを試行（python:3.13.9-slim、python:3.13-slim、ubuntu:24.04）
+2. APT設定の追加（Pipeline-Depth、No-Cache、BrokenProxy）
+3. 最終的にソースビルドに移行（確実性とセキュリティ面で優位）
+
+**メリット：**
+- Python 3.13.9確実にインストール（PPAは3.13.8のみ提供）
+- セキュリティホール（3.13.8）を回避
+- 環境の完全制御
+
+**日付:** 2025-10-22  
+**関連ファイル:** `Dockerfile`, `reports/2025-10-22/01_morning.md`
