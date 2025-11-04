@@ -1,11 +1,84 @@
 # FAQ - よくある質問と回答
 
 ## 目次
+- [Django基礎](#django基礎)
 - [Docker関連](#docker関連)
 - [セキュリティ](#セキュリティ)
 - [トラブルシューティング](#トラブルシューティング)
 
+## Django基礎
+
+### Q: views.pyとtemplatesの役割分担は？
+**A:** DjangoのMVTパターンで、ViewとTemplateは明確に役割が分離されています。
+
+**views.py（ビュー）の役割：**
+- **何のデータを取得するか**を定義
+- ビジネスロジックの処理
+- データベースからのデータ取得
+- どのテンプレートを使うか指定
+
+**templates（テンプレート）の役割：**
+- **どう表示するか**を定義
+- HTMLの構造とデザイン
+- ビューから渡されたデータの表示方法
+
+**例：ブログ記事表示の流れ**
+```python
+# views.py - データ取得のロジック
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'  # 使うテンプレート指定
+    
+    def get_queryset(self):
+        return Post.objects.filter(is_published=True)  # 公開記事を取得
+```
+
+```html
+<!-- templates/blog/post_list.html - 表示方法 -->
+{% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+{% endfor %}
+```
+
+**メリット：**
+- ロジックとデザインが独立
+- デザイナーとプログラマーが同時作業可能
+- 表示変更時はテンプレートのみ修正
+
+**日付:** 2025-11-04  
+**関連ファイル:** `blog/views.py`, `blog/templates/`
+
+---
+
 ## Docker関連
+
+### Q: Dockerを使っているプロジェクトで仮想環境（venv）は必要？
+**A:** Docker使用時は**ローカルの仮想環境は不要**です。
+
+**理由：**
+1. **Dockerコンテナが仮想環境の役割を果たす**
+   - コンテナ内に独立したPython環境が構築される
+   - requirements.txtの依存関係もコンテナ内で管理
+   - ローカルとコンテナの環境は完全に分離
+
+2. **すべてのコマンドはコンテナ内で実行**
+   ```bash
+   # ❌ ローカルで実行（間違い）
+   python manage.py createsuperuser
+   
+   # ✅ Dockerコンテナ内で実行（正しい）
+   docker-compose exec web python manage.py createsuperuser
+   ```
+
+3. **ローカルの環境（base, venv等）は影響しない**
+   - Anacondaの(base)環境のままでOK
+   - 新たにvenvを作る必要なし
+
+**日付:** 2025-11-04  
+**関連ファイル:** `docker-compose.yml`, `Dockerfile`
+
+---
 
 ### Q: 作成した内容を説明してください（Dockerfile）
 **A:** Dockerfileは、Dockerイメージを構築するための設定ファイルです。主な構成要素：
