@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}ブログ - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div class="py-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- ページタイトル -->
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">
+            技術ブログ
+        </h1>
+        
+        <!-- 記事一覧 -->
+        <div class="space-y-8">
+            {% for post in posts %}
+            <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
+                <h2 class="text-2xl font-bold mb-3">
+                    <a href="{% url 'blog:post_detail' post.slug %}" 
+                       class="text-gray-800 hover:text-blue-600 transition duration-300">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                
+                <div class="text-gray-600 text-sm mb-4">
+                    <span>{{ post.author.get_full_name|default:post.author.username }}</span>
+                    <span class="mx-2">•</span>
+                    <time datetime="{{ post.published_at|date:'Y-m-d' }}">
+                        {{ post.published_at|date:"Y年n月j日" }}
+                    </time>
+                </div>
+                
+                <p class="text-gray-700 line-clamp-3">
+                    {{ post.content|truncatewords:50 }}
+                </p>
+                
+                <div class="mt-4">
+                    <a href="{% url 'blog:post_detail' post.slug %}" 
+                       class="text-blue-600 hover:text-blue-800 font-medium">
+                        続きを読む →
+                    </a>
+                </div>
+            </article>
+            {% empty %}
+            <div class="text-center py-12">
+                <p class="text-gray-600 text-lg">まだ記事がありません。</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- ページネーション -->
+        {% if is_paginated %}
+        <div class="mt-12 flex justify-center">
+            <nav class="flex space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" 
+                   class="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition duration-300">
+                    ← 前へ
+                </a>
+                {% endif %}
+                
+                <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" 
+                   class="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition duration-300">
+                    次へ →
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

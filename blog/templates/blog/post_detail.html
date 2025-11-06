@@ -42,9 +42,25 @@
         a:hover {
             text-decoration: underline;
         }
+        .site-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+        .site-header h2 {
+            margin: 0;
+        }
+        .site-header a {
+            color: #333;
+            font-weight: bold;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+    <div class="site-header">
+        <h2><a href="/">{{ site_settings.site_name }}</a></h2>
+    </div>
     <article>
         <header class="post-header">
             <h1 class="post-title">{{ post.title }}</h1>

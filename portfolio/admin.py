@@ -1,5 +1,19 @@
 from django.contrib import admin
-from .models import PortfolioSection, Project
+from .models import SiteSettings, PortfolioSection, Project
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    """サイト設定の管理画面設定"""
+    list_display = ['site_name', 'site_description']
+    
+    def has_add_permission(self, request):
+        # 既にサイト設定が存在する場合は追加を許可しない
+        return not SiteSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        # サイト設定の削除を禁止
+        return False
 
 
 @admin.register(PortfolioSection)

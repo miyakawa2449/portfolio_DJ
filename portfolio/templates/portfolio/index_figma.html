@@ -1,0 +1,325 @@
+{% extends 'base_figma.html' %}
+
+{% block title %}{{ site_settings.site_name }} - ポートフォリオ{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* カスタムグラデーション */
+    .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    /* スキルバーアニメーション */
+    .skill-bar {
+        animation: fillBar 1s ease-out;
+    }
+    
+    @keyframes fillBar {
+        from { width: 0; }
+    }
+</style>
+{% endblock %}
+
+{% block nav_items %}
+<a href="#about" class="text-gray-700 hover:text-purple-600 transition duration-300">About</a>
+<a href="#services" class="text-gray-700 hover:text-purple-600 transition duration-300">Services</a>
+<a href="#skills" class="text-gray-700 hover:text-purple-600 transition duration-300">Skills</a>
+<a href="#achievements" class="text-gray-700 hover:text-purple-600 transition duration-300">Results</a>
+<a href="/blog/" class="text-gray-700 hover:text-purple-600 transition duration-300">Blog</a>
+<a href="#contact" class="text-gray-700 hover:text-purple-600 transition duration-300">Contact</a>
+{% endblock %}
+
+{% block mobile_nav_items %}
+<a href="#about" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">About</a>
+<a href="#services" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">Services</a>
+<a href="#skills" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">Skills</a>
+<a href="#achievements" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">Results</a>
+<a href="/blog/" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">Blog</a>
+<a href="#contact" class="block py-2 text-gray-700 hover:text-purple-600 transition duration-300">Contact</a>
+{% endblock %}
+
+{% block content %}
+<!-- ヒーローセクション -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div>
+                    <p class="text-sm text-gray-600 mb-4">Python 3.13 • Flask 3.1.2</p>
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                        ビジネス課題から実<br>
+                        装まで<br>
+                        一人で解決する<br>
+                        エンジニア
+                    </h1>
+                </div>
+                
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">宮川 剛</h2>
+                    <p class="text-gray-600">14年の経験。プログラミング歴から起業ビジネスまで幅広居な解決力</p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="#services" class="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition duration-300">
+                        サービス詳細
+                    </a>
+                    <a href="#contact" class="border border-gray-900 text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300">
+                        お問い合わせ
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <!-- 3Dグラフィックの代替 -->
+                <div class="w-full h-96 rounded-2xl gradient-bg opacity-20"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="w-64 h-64 mx-auto rounded-full gradient-bg opacity-30 blur-3xl"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 他のエンジニアとの違い -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">他のエンジニアとの違い</h2>
+        <p class="text-center text-gray-600 mb-16">単なる技術的な実装だけでなく、ビジネス課題の本質を理解し、包括的なソリューションを提供します</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 要件を理解できる -->
+            <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">要件を理解できる</h3>
+                <p class="text-gray-600">技術的な知識だけでなく、ビジネス視点から要件を正確に理解し、最適なソリューションを提案できます。</p>
+            </div>
+            
+            <!-- 設計・実装まで一貫 -->
+            <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">設計・実装まで一貫</h3>
+                <p class="text-gray-600">システム設計から実装、テスト、デプロイまで一人で対応できるため、品質の一貫性と効率的な開発を実現します。</p>
+            </div>
+            
+            <!-- AI分野にも専門性 -->
+            <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">AI分野にも専門性</h3>
+                <p class="text-gray-600">データ分析からAIモデル開発まで、最新技術を活用してビジネス価値創造に貢献します。機械学習の実装経験も豊富です。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 提供サービス -->
+<section id="services" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">提供サービス</h2>
+        <p class="text-center text-gray-600 mb-16">豊富な経験と技術力で、お客様のビジネス課題を包括的に解決します</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="h-48 bg-gradient-to-br from-purple-100 to-pink-100"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ project.description }}</p>
+                    
+                    <div class="mb-4">
+                        {% for tech in project.get_technologies_list %}
+                        <span class="inline-block text-sm text-gray-600 mr-3">• {{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <a href="{{ project.project_url|default:'#' }}" class="text-purple-600 hover:text-purple-700 font-medium">
+                        詳細を見る →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 技能のスキル向上 -->
+<section id="skills" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">技能のスキル向上</h2>
+        <p class="text-center text-gray-600 mb-16">継続的な学習と実践により、常に最新の技術力を維持しています</p>
+        
+        <div class="max-w-4xl mx-auto space-y-8">
+            <!-- Python -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">Python</span>
+                    <span class="text-gray-600">経験 14年  95%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 95%"></div>
+                </div>
+            </div>
+            
+            <!-- Flask -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">Flask</span>
+                    <span class="text-gray-600">経験 8年  90%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 90%"></div>
+                </div>
+            </div>
+            
+            <!-- データ分析 -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">データ分析</span>
+                    <span class="text-gray-600">経験 10年  85%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 85%"></div>
+                </div>
+            </div>
+            
+            <!-- Web開発 -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">Web開発</span>
+                    <span class="text-gray-600">経験 12年  90%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 90%"></div>
+                </div>
+            </div>
+            
+            <!-- システム設計 -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">システム設計</span>
+                    <span class="text-gray-600">経験 10年  88%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 88%"></div>
+                </div>
+            </div>
+            
+            <!-- プロジェクト管理 -->
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">プロジェクト管理</span>
+                    <span class="text-gray-600">経験 8年  85%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 85%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 実績の概要 -->
+<section id="achievements" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">実績の概要</h2>
+        <p class="text-center text-gray-600 mb-16">数字で見る、これまでの成果と経験的な成長</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">100%</h3>
+                <p class="text-gray-600">プロジェクト完了率</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">50+</h3>
+                <p class="text-gray-600">満足いただいた企業数</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">100日</h3>
+                <p class="text-gray-600">Python学習日数</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">14年</h3>
+                <p class="text-gray-600">開発経験年数</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-gray-900 text-white py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="inline-flex items-center bg-orange-500 text-white px-4 py-1 rounded-full mb-6">
+            <span class="font-bold">🐍 Python 100日チャレンジ運行中！</span>
+        </div>
+        
+        <h2 class="text-4xl font-bold mb-4">毎日の学習で技術力を向上</h2>
+        <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+            継続的な学習を通じて、最新のPython技術やAI/機械学習分野のスキルを日々更新しています。この取り組みにより、お客様により良いソリューションを提供できます。
+        </p>
+        
+        <a href="/blog/" class="inline-block bg-white text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300 font-medium">
+            進捗を確認する
+        </a>
+    </div>
+</section>
+
+<!-- お問い合わせ -->
+<section id="contact" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">まずはお気軽にご相談ください</h2>
+        <p class="text-center text-gray-600 mb-12">ビジネス課題の解決から技術的な実装まで、どんなご相談でもお気軽にお声がけください。初回のご相談は無料で承ります。</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="mailto:contact@miyakawa.code" class="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition duration-300 text-center">
+                メールでお問い合わせ
+            </a>
+            <a href="https://slack.com/intl/ja-jp/" target="_blank" class="border border-gray-900 text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300 text-center">
+                Slackでご相談
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

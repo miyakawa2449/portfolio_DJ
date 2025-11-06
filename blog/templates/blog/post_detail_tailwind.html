@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<article class="py-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- 記事ヘッダー -->
+        <header class="mb-8 pb-8 border-b-2 border-gray-200">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">
+                {{ post.title }}
+            </h1>
+            
+            <div class="text-gray-600 flex flex-wrap items-center space-x-4">
+                <div>
+                    <span class="font-medium">{{ post.author.get_full_name|default:post.author.username }}</span>
+                </div>
+                <div>
+                    <time datetime="{{ post.published_at|date:'Y-m-d' }}">
+                        {{ post.published_at|date:"Y年n月j日" }}
+                    </time>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 記事本文 -->
+        <div class="prose prose-lg max-w-none">
+            {{ post.content|linebreaks }}
+        </div>
+        
+        <!-- 記事フッター -->
+        <footer class="mt-12 pt-8 border-t-2 border-gray-200">
+            <div class="flex justify-between items-center">
+                <a href="{% url 'blog:post_list' %}" 
+                   class="text-blue-600 hover:text-blue-800 font-medium">
+                    ← 記事一覧に戻る
+                </a>
+                
+                <div class="text-gray-500 text-sm">
+                    最終更新: {{ post.updated_at|date:"Y年n月j日 H:i" }}
+                </div>
+            </div>
+        </footer>
+    </div>
+</article>
+{% endblock %}

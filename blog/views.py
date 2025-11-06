@@ -6,7 +6,7 @@ from .models import Post
 class PostListView(ListView):
     """ブログ記事一覧ビュー"""
     model = Post
-    template_name = 'blog/post_list.html'
+    template_name = 'blog/post_list_figma.html'
     context_object_name = 'posts'
     paginate_by = 10
     
@@ -18,7 +18,7 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     """ブログ記事詳細ビュー"""
     model = Post
-    template_name = 'blog/post_detail.html'
+    template_name = 'blog/post_detail_figma.html'
     context_object_name = 'post'
     
     def get_queryset(self):

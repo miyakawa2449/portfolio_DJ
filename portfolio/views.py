@@ -5,7 +5,7 @@ from .models import PortfolioSection, Project
 
 class PortfolioView(TemplateView):
     """ポートフォリオトップページビュー"""
-    template_name = 'portfolio/index.html'
+    template_name = 'portfolio/index_figma.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

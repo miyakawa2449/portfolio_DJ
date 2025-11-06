@@ -1,6 +1,28 @@
 from django.db import models
 
 
+class SiteSettings(models.Model):
+    """サイト全体の設定を管理するモデル"""
+    site_name = models.CharField(max_length=200, default='Miyakawa Code', verbose_name='サイト名')
+    site_description = models.CharField(max_length=500, blank=True, verbose_name='サイト説明')
+    site_keywords = models.CharField(max_length=500, blank=True, verbose_name='SEOキーワード', help_text='カンマ区切りで入力')
+    footer_text = models.CharField(max_length=200, blank=True, verbose_name='フッターテキスト')
+    
+    class Meta:
+        verbose_name = 'サイト設定'
+        verbose_name_plural = 'サイト設定'
+    
+    def __str__(self):
+        return self.site_name
+    
+    def save(self, *args, **kwargs):
+        # サイト設定は1つのみ存在するように制御
+        if not self.pk and SiteSettings.objects.exists():
+            # 既存のオブジェクトがある場合は、それを更新
+            self.pk = SiteSettings.objects.first().pk
+        super().save(*args, **kwargs)
+
+
 class PortfolioSection(models.Model):
     """ポートフォリオのセクション管理モデル"""
     SECTION_TYPES = [

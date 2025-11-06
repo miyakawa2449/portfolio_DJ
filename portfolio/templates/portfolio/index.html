@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ポートフォリオ</title>
+    <title>{{ site_settings.site_name }}</title>
+    <meta name="description" content="{{ site_settings.site_description }}">
     <style>
         * {
             margin: 0;
@@ -68,10 +69,25 @@
             z-index: 1000;
         }
         
+        nav .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav .site-name a {
+            color: white;
+            text-decoration: none;
+        }
+        
         nav ul {
             list-style: none;
             display: flex;
-            justify-content: center;
             gap: 30px;
         }
         
@@ -156,12 +172,17 @@
 <body>
     <nav>
         <div class="container">
-            <ul>
-                {% for section in sections %}
-                <li><a href="#{{ section.section_type }}">{{ section.title }}</a></li>
-                {% endfor %}
-                <li><a href="/blog/">ブログ</a></li>
-            </ul>
+            <div class="nav-content">
+                <div class="site-name">
+                    <a href="/">{{ site_settings.site_name }}</a>
+                </div>
+                <ul>
+                    {% for section in sections %}
+                    <li><a href="#{{ section.section_type }}">{{ section.title }}</a></li>
+                    {% endfor %}
+                    <li><a href="/blog/">ブログ</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
