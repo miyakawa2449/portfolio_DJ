@@ -51,6 +51,31 @@
     <div class="max-w-7xl mx-auto px-4 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-8">
+                {% if hero_section %}
+                <div>
+                    <p class="text-sm text-gray-600 mb-4">{{ hero_section.subtitle_tech }}</p>
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                        {% for line in hero_section.get_title_lines %}
+                            {{ line }}{% if not forloop.last %}<br>{% endif %}
+                        {% endfor %}
+                    </h1>
+                </div>
+                
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">{{ hero_section.author_name }}</h2>
+                    <p class="text-gray-600">{{ hero_section.author_description }}</p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="{{ hero_section.cta_primary_link }}" class="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition duration-300">
+                        {{ hero_section.cta_primary_text }}
+                    </a>
+                    <a href="{{ hero_section.cta_secondary_link }}" class="border border-gray-900 text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300">
+                        {{ hero_section.cta_secondary_text }}
+                    </a>
+                </div>
+                {% else %}
+                <!-- デフォルト表示（データが存在しない場合） -->
                 <div>
                     <p class="text-sm text-gray-600 mb-4">Python 3.13 • Flask 3.1.2</p>
                     <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
@@ -63,7 +88,7 @@
                 
                 <div>
                     <h2 class="text-xl font-bold text-gray-800 mb-2">宮川 剛</h2>
-                    <p class="text-gray-600">14年の経験。プログラミング歴から起業ビジネスまで幅広居な解決力</p>
+                    <p class="text-gray-600">14年の経験。プログラミング歴から起業ビジネスまで幅広い解決力</p>
                 </div>
                 
                 <div class="flex space-x-4">
@@ -74,16 +99,28 @@
                         お問い合わせ
                     </a>
                 </div>
+                {% endif %}
             </div>
             
             <div class="relative">
-                <!-- 3Dグラフィックの代替 -->
+                {% if hero_section and hero_section.hero_image %}
+                <!-- アップロードされた画像を表示 -->
+                <div class="w-full h-96 rounded-2xl overflow-hidden shadow-lg">
+                    <img 
+                        src="{{ hero_section.hero_image.url }}" 
+                        alt="{{ hero_section.hero_image_alt|default:'ヒーロー画像' }}"
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+                {% else %}
+                <!-- デフォルト表示（画像がない場合） -->
                 <div class="w-full h-96 rounded-2xl gradient-bg opacity-20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
                         <div class="w-64 h-64 mx-auto rounded-full gradient-bg opacity-30 blur-3xl"></div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -96,7 +133,18 @@
         <p class="text-center text-gray-600 mb-16">単なる技術的な実装だけでなく、ビジネス課題の本質を理解し、包括的なソリューションを提供します</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- 要件を理解できる -->
+            {% for feature in features %}
+            <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">{{ feature.title }}</h3>
+                <p class="text-gray-600">{{ feature.description }}</p>
+            </div>
+            {% empty %}
+            <!-- デフォルト表示（データが存在しない場合） -->
             <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
                 <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,8 +154,6 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-4">要件を理解できる</h3>
                 <p class="text-gray-600">技術的な知識だけでなく、ビジネス視点から要件を正確に理解し、最適なソリューションを提案できます。</p>
             </div>
-            
-            <!-- 設計・実装まで一貫 -->
             <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
                 <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,8 +163,6 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-4">設計・実装まで一貫</h3>
                 <p class="text-gray-600">システム設計から実装、テスト、デプロイまで一人で対応できるため、品質の一貫性と効率的な開発を実現します。</p>
             </div>
-            
-            <!-- AI分野にも専門性 -->
             <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300">
                 <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,6 +172,7 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-4">AI分野にも専門性</h3>
                 <p class="text-gray-600">データ分析からAIモデル開発まで、最新技術を活用してビジネス価値創造に貢献します。機械学習の実装経験も豊富です。</p>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -141,7 +186,20 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {% for project in projects %}
             <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition duration-300">
+                {% if project.thumbnail_image %}
+                <!-- アップロードされた画像を表示 -->
+                <div class="h-48 overflow-hidden">
+                    <img 
+                        src="{{ project.thumbnail_image.url }}" 
+                        alt="{{ project.title }}のサムネイル"
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+                {% else %}
+                <!-- デフォルト表示（画像がない場合） -->
                 <div class="h-48 bg-gradient-to-br from-purple-100 to-pink-100"></div>
+                {% endif %}
+                
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
                     <p class="text-gray-600 mb-4">{{ project.description }}</p>
@@ -169,7 +227,21 @@
         <p class="text-center text-gray-600 mb-16">継続的な学習と実践により、常に最新の技術力を維持しています</p>
         
         <div class="max-w-4xl mx-auto space-y-8">
-            <!-- Python -->
+            {% for skill in skills %}
+            <div>
+                <div class="flex justify-between mb-2">
+                    <span class="font-bold text-gray-900">{{ skill.name }}</span>
+                    <span class="text-gray-600">経験 {{ skill.experience_years }}年  {{ skill.proficiency_percentage }}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: {{ skill.proficiency_percentage }}%"></div>
+                </div>
+                {% if skill.description %}
+                <p class="text-sm text-gray-500 mt-1">{{ skill.description }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <!-- デフォルト表示（データが存在しない場合） -->
             <div>
                 <div class="flex justify-between mb-2">
                     <span class="font-bold text-gray-900">Python</span>
@@ -179,19 +251,15 @@
                     <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 95%"></div>
                 </div>
             </div>
-            
-            <!-- Flask -->
             <div>
                 <div class="flex justify-between mb-2">
-                    <span class="font-bold text-gray-900">Flask</span>
+                    <span class="font-bold text-gray-900">Django</span>
                     <span class="text-gray-600">経験 8年  90%</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-3">
                     <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 90%"></div>
                 </div>
             </div>
-            
-            <!-- データ分析 -->
             <div>
                 <div class="flex justify-between mb-2">
                     <span class="font-bold text-gray-900">データ分析</span>
@@ -201,39 +269,7 @@
                     <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 85%"></div>
                 </div>
             </div>
-            
-            <!-- Web開発 -->
-            <div>
-                <div class="flex justify-between mb-2">
-                    <span class="font-bold text-gray-900">Web開発</span>
-                    <span class="text-gray-600">経験 12年  90%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 90%"></div>
-                </div>
-            </div>
-            
-            <!-- システム設計 -->
-            <div>
-                <div class="flex justify-between mb-2">
-                    <span class="font-bold text-gray-900">システム設計</span>
-                    <span class="text-gray-600">経験 10年  88%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 88%"></div>
-                </div>
-            </div>
-            
-            <!-- プロジェクト管理 -->
-            <div>
-                <div class="flex justify-between mb-2">
-                    <span class="font-bold text-gray-900">プロジェクト管理</span>
-                    <span class="text-gray-600">経験 8年  85%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div class="skill-bar bg-gray-900 h-3 rounded-full" style="width: 85%"></div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -245,6 +281,18 @@
         <p class="text-center text-gray-600 mb-16">数字で見る、これまでの成果と経験的な成長</p>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {% for achievement in achievements %}
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900">{{ achievement.value }}</h3>
+                <p class="text-gray-600">{{ achievement.description }}</p>
+            </div>
+            {% empty %}
+            <!-- デフォルト表示（データが存在しない場合） -->
             <div class="text-center">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -254,7 +302,6 @@
                 <h3 class="text-3xl font-bold text-gray-900">100%</h3>
                 <p class="text-gray-600">プロジェクト完了率</p>
             </div>
-            
             <div class="text-center">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,17 +311,6 @@
                 <h3 class="text-3xl font-bold text-gray-900">50+</h3>
                 <p class="text-gray-600">満足いただいた企業数</p>
             </div>
-            
-            <div class="text-center">
-                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-3xl font-bold text-gray-900">100日</h3>
-                <p class="text-gray-600">Python学習日数</p>
-            </div>
-            
             <div class="text-center">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -284,11 +320,31 @@
                 <h3 class="text-3xl font-bold text-gray-900">14年</h3>
                 <p class="text-gray-600">開発経験年数</p>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>
 
 <!-- CTA -->
+{% if cta_section %}
+<section class="{{ cta_section.background_color|default:'bg-gray-900' }} {{ cta_section.text_color|default:'text-white' }} py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="inline-flex items-center bg-orange-500 text-white px-4 py-1 rounded-full mb-6">
+            <span class="font-bold">{{ cta_section.badge_text }}</span>
+        </div>
+        
+        <h2 class="text-4xl font-bold mb-4">{{ cta_section.main_title }}</h2>
+        <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+            {{ cta_section.description }}
+        </p>
+        
+        <a href="{{ cta_section.button_link }}" class="inline-block bg-white text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300 font-medium">
+            {{ cta_section.button_text }}
+        </a>
+    </div>
+</section>
+{% else %}
+<!-- デフォルトCTA表示 -->
 <section class="bg-gray-900 text-white py-20">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <div class="inline-flex items-center bg-orange-500 text-white px-4 py-1 rounded-full mb-6">
@@ -305,10 +361,25 @@
         </a>
     </div>
 </section>
+{% endif %}
 
 <!-- お問い合わせ -->
 <section id="contact" class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4">
+        {% if contact_section %}
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">{{ contact_section.title }}</h2>
+        <p class="text-center text-gray-600 mb-12">{{ contact_section.description }}</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="mailto:{{ contact_section.email_address }}" class="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition duration-300 text-center">
+                {{ contact_section.email_button_text }}
+            </a>
+            <a href="{{ contact_section.slack_url }}" target="_blank" class="border border-gray-900 text-gray-900 px-8 py-3 rounded-md hover:bg-gray-100 transition duration-300 text-center">
+                {{ contact_section.slack_button_text }}
+            </a>
+        </div>
+        {% else %}
+        <!-- デフォルトお問い合わせ表示 -->
         <h2 class="text-4xl font-bold text-center text-gray-900 mb-4">まずはお気軽にご相談ください</h2>
         <p class="text-center text-gray-600 mb-12">ビジネス課題の解決から技術的な実装まで、どんなご相談でもお気軽にお声がけください。初回のご相談は無料で承ります。</p>
         
@@ -320,6 +391,7 @@
                 Slackでご相談
             </a>
         </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
