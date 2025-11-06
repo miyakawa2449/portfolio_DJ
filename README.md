@@ -13,7 +13,8 @@
 
 - **Backend**: Python 3.13.9, Django 5.2.7
 - **Database**: MySQL 8.0
-- **Frontend**: Tailwind CSS, Django Template Engine
+- **Frontend**: Tailwind CSS (CDN), Django Template Engine
+- **画像処理**: Pillow, django-imagekit
 - **Deployment**: Docker, AWS Lightsail
 
 ## 開発環境のセットアップ
@@ -65,19 +66,23 @@ portfolio_DJ/
 │   ├── urls.py
 │   └── wsgi.py
 ├── portfolio/           # ポートフォリオアプリ
-│   ├── models.py       # （Phase 2で実装予定）
-│   ├── views.py
-│   ├── admin.py
-│   └── migrations/
+│   ├── models.py       # ポートフォリオモデル（実装済み）
+│   ├── views.py        # ビューロジック
+│   ├── admin.py        # 管理画面カスタマイズ
+│   ├── templates/      # テンプレート
+│   └── migrations/     # マイグレーションファイル
 ├── blog/               # ブログアプリ
-│   ├── models.py       # （Phase 2で実装予定）
+│   ├── models.py       # ブログモデル（実装済み）
 │   ├── views.py
 │   ├── admin.py
 │   └── migrations/
+├── media/              # アップロード画像
+│   ├── hero/          # ヒーロー画像
+│   └── projects/      # プロジェクトサムネイル
 ├── docs/               # プロジェクトドキュメント
 │   └── faq.md          # よくある質問と回答
 ├── reports/            # 開発レポート
-│   └── 2025-10-22/    # 日次レポート
+│   └── YYYY-MM-DD/    # 日次レポート
 ├── .claude/            # Claude Code設定
 │   └── commands/       # カスタムコマンド
 ├── docker-compose.yml  # Docker設定
@@ -88,21 +93,40 @@ portfolio_DJ/
 └── .gitignore         # Git除外設定
 ```
 
+## 主な機能
+
+### ポートフォリオサイト
+- **ヒーローセクション**: 自動リサイズ画像（600×384px）、改行対応タイトル
+- **特徴セクション**: 3つの差別化ポイントを管理
+- **スキル表示**: 経験年数と習熟度をプログレスバーで表示
+- **実績数値**: 4つの主要指標を表示
+- **提供サービス**: サムネイル画像（400×240px）付きプロジェクト一覧
+- **CTA/お問い合わせ**: カスタマイズ可能なアクション誘導
+
+### 管理機能
+- Django Admin でのビジュアルコンテンツ管理
+- 画像の自動リサイズ・最適化
+- セクション単位での表示/非表示制御
+- 表示順序のカスタマイズ
+
 ## 開発フェーズ
 
 - [x] Phase 1: Docker環境構築 ✅ **完了** (2025-10-22)
   - Python 3.13.9ソースビルド成功
   - Django 5.2.7 + MySQL 8.0環境構築
   - portfolio、blogアプリ作成済み
-- [ ] Phase 2: モデル構築 **← 現在ここ**
-  - ポートフォリオセクション管理
-  - ブログ記事・カテゴリー管理
-- [ ] Phase 3: フロントエンド実装
-  - Tailwind CSS導入
-  - レスポンシブデザイン
+- [x] Phase 2: モデル構築 ✅ **完了** (2025-11-06)
+  - Figmaデザイン準拠のモデル設計
+  - 7つのセクションモデル実装
+  - 画像アップロード機能（django-imagekit）
+  - 管理画面カスタマイズ
+- [ ] Phase 3: フロントエンド実装 **← 現在ここ**
+  - Tailwind CSS（CDN版）導入済み
+  - レスポンシブデザイン実装中
+  - 動的テンプレート実装済み
 - [ ] Phase 4: 機能拡張
-  - 画像アップロード
-  - リッチテキストエディタ
+  - ~~画像アップロード~~ ✅ 実装済み
+  - リッチテキストエディタ（ブログ用）
 - [ ] Phase 5: 本番環境準備
   - セキュリティ設定
   - 静的ファイル配信
@@ -120,6 +144,31 @@ Dockerビルド時にエラーが発生した場合は、`docs/faq.md`の「ト�
 ```bash
 docker exec -it portfolio_dj-web-1 python manage.py createsuperuser
 ```
+
+## モデル構造
+
+### ポートフォリオアプリ
+- `SiteSettings`: サイト全体設定（サイト名、説明等）
+- `HeroSection`: ヒーローセクション（メインビジュアル）
+- `AboutSection`: 自己紹介セクション
+- `Feature`: 特徴・差別化ポイント
+- `Skill`: スキル・技術スタック
+- `Achievement`: 実績数値
+- `Project`: 提供サービス・プロジェクト
+- `CTASection`: Call to Actionセクション
+- `ContactSection`: お問い合わせセクション
+
+### ブログアプリ
+- `Post`: ブログ記事
+- `Category`: カテゴリー
+
+## 画像処理
+
+### django-imagekitによる自動処理
+- **ヒーロー画像**: 600×384px（アスペクト比 25:16）
+- **プロジェクトサムネイル**: 400×240px（アスペクト比 5:3）
+- **自動リサイズ・クロップ**: アップロード時に自動処理
+- **JPEG最適化**: 品質85-90%で軽量化
 
 ## 開発ドキュメント
 
